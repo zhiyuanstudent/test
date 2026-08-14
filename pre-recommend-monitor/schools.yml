@@ -1,0 +1,175 @@
+settings:
+  timezone: Asia/Shanghai
+  target_year: auto
+  lookback_days: 300
+  max_results_per_school: 8
+  max_pages_per_school: 5
+  request_timeout_seconds: 18
+  concurrent_workers: 8
+  notify_initial_run: true
+  assignee: zhiyuanstudent
+  major_keywords:
+    - 计算机
+    - 软件
+    - 人工智能
+    - 网络空间安全
+    - 网络安全
+    - 数据科学
+    - 智能科学
+    - 电子信息
+    - 信息工程
+    - 自动化
+  notice_keywords:
+    - 预推免
+    - 推免预报名
+    - 接收推荐免试
+    - 推荐免试研究生
+    - 推免生
+    - 直博生
+    - 优秀大学生
+    - 校园开放日
+    - 暑期学校
+    - 夏令营
+    - 选拔营
+  exclude_keywords:
+    - 本科生推免资格
+    - 推免资格名单
+    - 拟推荐名单
+    - 推免名额分配
+    - 推荐资格公示
+
+schools:
+  - name: 国防科技大学
+    priority: high
+    domains: [nudt.edu.cn]
+  - name: 西北工业大学
+    priority: high
+    domains: [nwpu.edu.cn]
+  - name: 西安交通大学
+    priority: high
+    domains: [xjtu.edu.cn]
+  - name: 厦门大学
+    priority: high
+    domains: [xmu.edu.cn]
+  - name: 南开大学
+    priority: high
+    domains: [nankai.edu.cn]
+  - name: 中山大学
+    priority: high
+    domains: [sysu.edu.cn]
+  - name: 南京理工大学
+    priority: high
+    domains: [njust.edu.cn]
+  - name: 北京邮电大学
+    priority: high
+    domains: [bupt.edu.cn]
+  - name: 东北大学
+    priority: high
+    domains: [neu.edu.cn]
+  - name: 华中科技大学
+    priority: high
+    domains: [hust.edu.cn]
+  - name: 吉林大学
+    priority: high
+    domains: [jlu.edu.cn]
+  - name: 中国科学院大学
+    priority: high
+    domains: [ucas.ac.cn]
+  - name: 中科院计算技术研究所
+    priority: high
+    domains: [ict.ac.cn]
+  - name: 中科院自动化研究所
+    priority: high
+    domains: [ia.ac.cn]
+  - name: 中科院软件研究所
+    priority: high
+    domains: [iscas.ac.cn]
+  - name: 中科院信息工程研究所
+    priority: high
+    domains: [iie.ac.cn]
+  - name: 中科院深圳先进技术研究院
+    priority: high
+    domains: [siat.ac.cn]
+
+  - name: 清华大学
+    domains: [tsinghua.edu.cn]
+  - name: 北京大学
+    domains: [pku.edu.cn]
+  - name: 北京航空航天大学
+    domains: [buaa.edu.cn]
+  - name: 北京理工大学
+    domains: [bit.edu.cn]
+  - name: 中国人民大学
+    domains: [ruc.edu.cn]
+  - name: 北京师范大学
+    domains: [bnu.edu.cn]
+  - name: 北京交通大学
+    domains: [bjtu.edu.cn]
+  - name: 北京科技大学
+    domains: [ustb.edu.cn]
+  - name: 北京工业大学
+    domains: [bjut.edu.cn]
+  - name: 哈尔滨工业大学
+    domains: [hit.edu.cn]
+  - name: 哈尔滨工程大学
+    domains: [hrbeu.edu.cn]
+  - name: 天津大学
+    domains: [tju.edu.cn]
+  - name: 大连理工大学
+    domains: [dlut.edu.cn]
+  - name: 复旦大学
+    domains: [fudan.edu.cn]
+  - name: 上海交通大学
+    domains: [sjtu.edu.cn]
+  - name: 同济大学
+    domains: [tongji.edu.cn]
+  - name: 华东师范大学
+    domains: [ecnu.edu.cn]
+  - name: 上海科技大学
+    domains: [shanghaitech.edu.cn]
+  - name: 南京大学
+    domains: [nju.edu.cn]
+  - name: 东南大学
+    domains: [seu.edu.cn]
+  - name: 南京航空航天大学
+    domains: [nuaa.edu.cn]
+  - name: 南京邮电大学
+    domains: [njupt.edu.cn]
+  - name: 苏州大学
+    domains: [suda.edu.cn]
+  - name: 浙江大学
+    domains: [zju.edu.cn]
+  - name: 杭州电子科技大学
+    domains: [hdu.edu.cn]
+  - name: 中国科学技术大学
+    domains: [ustc.edu.cn]
+  - name: 合肥工业大学
+    domains: [hfut.edu.cn]
+  - name: 武汉大学
+    domains: [whu.edu.cn]
+  - name: 四川大学
+    domains: [scu.edu.cn]
+  - name: 电子科技大学
+    domains: [uestc.edu.cn]
+  - name: 重庆大学
+    domains: [cqu.edu.cn]
+  - name: 山东大学
+    domains: [sdu.edu.cn]
+  - name: 中国海洋大学
+    domains: [ouc.edu.cn]
+  - name: 中南大学
+    domains: [csu.edu.cn]
+  - name: 湖南大学
+    domains: [hnu.edu.cn]
+  - name: 华南理工大学
+    domains: [scut.edu.cn]
+  - name: 深圳大学
+    domains: [szu.edu.cn]
+  - name: 南方科技大学
+    domains: [sustech.edu.cn]
+  - name: 香港中文大学（深圳）
+    domains: [cuhk.edu.cn]
+  - name: 西安电子科技大学
+    domains: [xidian.edu.cn]
+  - name: 兰州大学
+    domains: [lzu.edu.cn]
