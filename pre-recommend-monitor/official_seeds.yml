@@ -1,0 +1,184 @@
+schools:
+  国防科技大学:
+  - https://yjszs.nudt.edu.cn/
+  - https://www.nudt.edu.cn/
+  西北工业大学:
+  - https://yzb.nwpu.edu.cn/
+  - https://jsj.nwpu.edu.cn/
+  - https://jsj.nwpu.edu.cn/info/1599/26125.htm
+  - https://jsj.nwpu.edu.cn/info/1599/29535.htm
+  西安交通大学:
+  - https://yz.xjtu.edu.cn/
+  - https://cybersec.xjtu.edu.cn/
+  - https://cybersec.xjtu.edu.cn/info/1017/2091.htm
+  厦门大学:
+  - https://informatics.xmu.edu.cn/1072/list.htm
+  - https://informatics.xmu.edu.cn/info/1072/202371.htm
+  - https://zs.xmu.edu.cn/
+  南开大学:
+  - https://cs.nankai.edu.cn/1076/list.htm
+  - https://cs.nankai.edu.cn/info/1076/3673.htm
+  - https://yzb.nankai.edu.cn/
+  中山大学:
+  - https://cse.sysu.edu.cn/admission/summer_camp
+  - https://cse.sysu.edu.cn/node/3587
+  - https://scst.sysu.edu.cn/article/502
+  - https://graduate.sysu.edu.cn/zsw/
+  南京理工大学:
+  - https://gs.njust.edu.cn/zsw/
+  - https://gs.njust.edu.cn/zsw/65/d1/c4587a353745/page.htm
+  - https://cs.njust.edu.cn/
+  北京邮电大学:
+  - https://scs.bupt.edu.cn/
+  - https://scs.bupt.edu.cn/1050/list.htm
+  - https://yzb.bupt.edu.cn/
+  东北大学:
+  - http://www.cse.neu.edu.cn/
+  - https://yz.neu.edu.cn/
+  华中科技大学:
+  - https://cs.hust.edu.cn/yjsjy/zsxx.htm
+  - https://gszs.hust.edu.cn/
+  吉林大学:
+  - https://ccst.jlu.edu.cn/
+  - https://yjsy.jlu.edu.cn/
+  中国科学院大学:
+  - https://admission.ucas.ac.cn/
+  - https://www.ucas.ac.cn/
+  中科院计算技术研究所:
+  - http://www.ict.ac.cn/
+  - http://www.ict.cas.cn/yjsjy/
+  中科院自动化研究所:
+  - http://www.ia.ac.cn/
+  - http://www.ia.cas.cn/yjsjy/
+  中科院软件研究所:
+  - http://www.iscas.ac.cn/
+  - http://www.iscas.cas.cn/yjsjy/
+  中科院信息工程研究所:
+  - http://www.iie.ac.cn/
+  - http://www.iie.cas.cn/yjsjy/
+  中科院深圳先进技术研究院:
+  - https://www.siat.ac.cn/
+  - https://siat.cas.cn/yjsjy2016/zsxx2016/
+  清华大学:
+  - https://www.cs.tsinghua.edu.cn/
+  - https://yz.tsinghua.edu.cn/
+  北京大学:
+  - https://cs.pku.edu.cn/
+  - https://admission.pku.edu.cn/
+  北京航空航天大学:
+  - https://scse.buaa.edu.cn/
+  - https://yzb.buaa.edu.cn/
+  北京理工大学:
+  - https://cs.bit.edu.cn/
+  - https://grd.bit.edu.cn/zsgz/
+  中国人民大学:
+  - http://info.ruc.edu.cn/
+  - http://pgs.ruc.edu.cn/
+  北京师范大学:
+  - https://ai.bnu.edu.cn/
+  - https://yz.bnu.edu.cn/
+  北京交通大学:
+  - https://cs.bjtu.edu.cn/
+  - https://gs.bjtu.edu.cn/
+  北京科技大学:
+  - https://scce.ustb.edu.cn/
+  - https://yzxc.ustb.edu.cn/
+  北京工业大学:
+  - https://cs.bjut.edu.cn/
+  - https://yanzhao.bjut.edu.cn/
+  哈尔滨工业大学:
+  - https://cs.hit.edu.cn/
+  - https://yzb.hit.edu.cn/
+  哈尔滨工程大学:
+  - https://cstc.hrbeu.edu.cn/
+  - https://yzb.hrbeu.edu.cn/
+  天津大学:
+  - https://cic.tju.edu.cn/
+  - https://yzb.tju.edu.cn/
+  大连理工大学:
+  - https://cs.dlut.edu.cn/
+  - https://gs.dlut.edu.cn/
+  复旦大学:
+  - https://cs.fudan.edu.cn/
+  - https://gsao.fudan.edu.cn/
+  上海交通大学:
+  - https://www.cs.sjtu.edu.cn/
+  - https://yzb.sjtu.edu.cn/
+  同济大学:
+  - https://sse.tongji.edu.cn/
+  - https://yz.tongji.edu.cn/
+  华东师范大学:
+  - https://cs.ecnu.edu.cn/
+  - https://yjszs.ecnu.edu.cn/
+  上海科技大学:
+  - https://sist.shanghaitech.edu.cn/
+  - https://grad.shanghaitech.edu.cn/
+  南京大学:
+  - https://cs.nju.edu.cn/
+  - https://grawww.nju.edu.cn/
+  东南大学:
+  - https://cse.seu.edu.cn/
+  - https://yzb.seu.edu.cn/
+  南京航空航天大学:
+  - https://cs.nuaa.edu.cn/
+  - https://yzsbm.nuaa.edu.cn/
+  南京邮电大学:
+  - https://cs.njupt.edu.cn/
+  - https://yzb.njupt.edu.cn/
+  苏州大学:
+  - https://scst.suda.edu.cn/
+  - https://yjs.suda.edu.cn/
+  浙江大学:
+  - http://www.cs.zju.edu.cn/
+  - http://grs.zju.edu.cn/yjszs/
+  杭州电子科技大学:
+  - https://computer.hdu.edu.cn/
+  - https://grs.hdu.edu.cn/
+  中国科学技术大学:
+  - https://cs.ustc.edu.cn/
+  - https://yz.ustc.edu.cn/
+  合肥工业大学:
+  - http://ci.hfut.edu.cn/
+  - http://yjszs.hfut.edu.cn/
+  武汉大学:
+  - https://cs.whu.edu.cn/
+  - https://yz.whu.edu.cn/
+  四川大学:
+  - https://cs.scu.edu.cn/
+  - https://yz.scu.edu.cn/
+  电子科技大学:
+  - https://www.scse.uestc.edu.cn/
+  - https://yz.uestc.edu.cn/
+  重庆大学:
+  - http://www.cs.cqu.edu.cn/
+  - http://yz.cqu.edu.cn/
+  山东大学:
+  - https://www.cs.sdu.edu.cn/
+  - https://www.yz.sdu.edu.cn/
+  中国海洋大学:
+  - https://it.ouc.edu.cn/
+  - https://yz.ouc.edu.cn/
+  中南大学:
+  - https://cse.csu.edu.cn/
+  - https://gra.csu.edu.cn/
+  湖南大学:
+  - https://csee.hnu.edu.cn/
+  - https://gra.hnu.edu.cn/
+  华南理工大学:
+  - https://www2.scut.edu.cn/cs/
+  - https://yz.scut.edu.cn/
+  深圳大学:
+  - https://csse.szu.edu.cn/
+  - https://yz.szu.edu.cn/
+  南方科技大学:
+  - https://cse.sustech.edu.cn/
+  - https://gs.sustech.edu.cn/
+  香港中文大学（深圳）:
+  - https://sds.cuhk.edu.cn/
+  - https://gs.cuhk.edu.cn/
+  西安电子科技大学:
+  - https://cs.xidian.edu.cn/
+  - https://gr.xidian.edu.cn/
+  兰州大学:
+  - https://xxxy.lzu.edu.cn/
+  - https://yz.lzu.edu.cn/
