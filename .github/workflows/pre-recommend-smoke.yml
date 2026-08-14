@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   smoke:
+    # Regression check for the schema-v4 filtering and date parser.
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
