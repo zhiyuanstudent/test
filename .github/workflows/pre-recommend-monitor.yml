@@ -23,6 +23,7 @@ concurrency:
 
 jobs:
   monitor:
+    # Schema v4: title/lead-based specialty filtering and date-range recognition.
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
