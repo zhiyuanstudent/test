@@ -1,0 +1,26 @@
+name: 预推免监控回归测试
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - "pre-recommend-monitor/smoke_test.py"
+      - "pre-recommend-monitor/monitor_v3.py"
+      - ".github/workflows/pre-recommend-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pre-recommend-monitor/requirements.txt
+      - run: python -m pip install --disable-pip-version-check -r pre-recommend-monitor/requirements.txt
+      - run: python pre-recommend-monitor/smoke_test.py
