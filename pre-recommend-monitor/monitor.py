@@ -225,6 +225,14 @@ def parse_bing_rss(
     r.raise_for_status()
     root = ET.fromstring(r.content)
     nodes = root.findall(".//item")
+    if school["name"] == "中山大学" and nodes:
+        first = nodes[0]
+        print(
+            "DEBUG_BING_RSS",
+            query,
+            repr(clean(first.findtext("title", ""))),
+            repr(clean(first.findtext("link", ""))),
+        )
     results: list[dict[str, Any]] = []
     for item in nodes:
         title = clean(item.findtext("title", ""))
