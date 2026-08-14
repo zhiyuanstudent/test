@@ -8,6 +8,7 @@ on:
   push:
     paths:
       - "pre-recommend-monitor/monitor.py"
+      - "pre-recommend-monitor/search_probe.py"
       - "pre-recommend-monitor/schools.yml"
       - "pre-recommend-monitor/requirements.txt"
       - ".github/workflows/pre-recommend-monitor.yml"
@@ -40,6 +41,9 @@ jobs:
 
       - name: Install dependencies
         run: python -m pip install --disable-pip-version-check -r pre-recommend-monitor/requirements.txt
+
+      - name: Probe search engines
+        run: python pre-recommend-monitor/search_probe.py
 
       - name: Crawl official notices
         id: monitor
