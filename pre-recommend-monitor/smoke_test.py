@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Regression check against known official 2027 pre-recommendation notices."""
+"""Regression checks against known official 2027 pre-recommendation notices."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -37,19 +37,35 @@ CASES = [
 def main() -> None:
     config = yaml.safe_load(monitor.CONFIG.read_text(encoding="utf-8"))["settings"]
     now = datetime.now(ZoneInfo(config.get("timezone", "Asia/Shanghai")))
-    found = []
+    found: dict[str, monitor.Notice] = {}
+
     for candidate in CASES:
         notice = monitor.build_notice(candidate, 2027, config, now)
         if notice is None:
             print(f"MISS {candidate.school}: {candidate.url}")
             continue
-        found.append(notice)
+        found[candidate.school] = notice
         print(f"OK {notice.school}: {notice.title}")
         print(f"  published={notice.published} status={notice.status}")
         for value in notice.key_times:
             print(f"  time={value}")
-    if not found:
-        raise SystemExit("No known official 2027 notice could be parsed")
+
+    if len(found) != len(CASES):
+        missing = sorted({item.school for item in CASES} - set(found))
+        raise SystemExit(f"Known official notices were not parsed: {', '.join(missing)}")
+
+    xmu = found["厦门大学"]
+    if xmu.status != "已截止" or not any("7 月 7 日" in value for value in xmu.key_times):
+        raise SystemExit("XMU application date range was not recognized as closed")
+    if any("1-8 项" in value for value in xmu.key_times):
+        raise SystemExit("A document item range was incorrectly recognized as a date")
+
+    sysu = found["中山大学"]
+    joined = "\n".join(sysu.key_times)
+    for expected in ("8月12日", "8月20日", "8月27日"):
+        if expected not in joined:
+            raise SystemExit(f"SYSU key date missing: {expected}")
+
     print(f"validated={len(found)}/{len(CASES)}")
 
 
