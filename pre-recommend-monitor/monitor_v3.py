@@ -44,10 +44,17 @@ GENERAL_SCOPE = ("招生简章", "接收办法", "接收章程", "接收推荐�
 DEADLINE_WORDS = ("截止", "截至", "结束", "关闭", "逾期", "最后")
 APPLICATION_WORDS = ("报名", "申请", "提交", "填报", "材料", "系统开放", "注册")
 ASSESSMENT_WORDS = ("复试", "面试", "考核", "选拔", "宣讲", "入营", "报到", "确认")
-FULL_DATE = re.compile(r"(?P<y>20\d{2})[年./-]\s*(?P<m>\d{1,2})[月./-]\s*(?P<d>\d{1,2})(?:日|号)?")
-MONTH_DAY = re.compile(r"(?<!\d)(?P<m>\d{1,2})月\s*(?P<d>\d{1,2})(?:日|号)?")
-NUMERIC_MD = re.compile(r"(?<!\d)(?P<m>\d{1,2})[./-](?P<d>\d{1,2})(?!\d)")
-ANY_DATE = re.compile(r"(?:20\d{2}[年./-]\s*)?\d{1,2}(?:月|[./-])\s*\d{1,2}(?:日|号)?")
+FULL_DATE = re.compile(r"(?P<y>20\d{2})\s*[年./-]\s*(?P<m>\d{1,2})\s*[月./-]\s*(?P<d>\d{1,2})\s*(?:日|号)?")
+MONTH_DAY = re.compile(r"(?<!\d)(?P<m>\d{1,2})\s*月\s*(?P<d>\d{1,2})\s*(?:日|号)?")
+ANY_DATE = re.compile(
+    r"(?:20\d{2}\s*[年./-]\s*)?\d{1,2}\s*月\s*\d{1,2}\s*(?:日|号)?"
+    r"|20\d{2}\s*[./-]\s*\d{1,2}\s*[./-]\s*\d{1,2}"
+)
+EVENT_TERMS = ("夏令营", "校园开放日", "暑期学校", "招生宣传日", "选拔营")
+EVENT_ACTIONS = ("通知", "公告", "方案", "安排", "招生", "报名", "申请", "招募", "简章")
+NEWS_RESULTS = ("圆满举行", "成功举办", "顺利举行", "受邀参加", "召开", "纪实", "回顾", "风采", "闭营", "开营仪式")
+TITLE_SCOPE = ("计算机", "软件", "人工智能", "网络空间安全", "网络安全", "数据科学", "智能科学", "信息学院", "信息科学", "电子信息", "自动化", "模式识别", "智能医学")
+GENERAL_NOTICE = ("接收推荐免试研究生", "推荐免试研究生预报名", "推荐免试研究生工作办法", "推荐免试研究生招生章程", "推免生预报名", "推荐免试研究生预报名的通知")
 
 
 @dataclass
@@ -118,8 +125,52 @@ def has_notice(text: str, cfg: dict[str, Any]) -> bool:
     return not (excluded and not receiving)
 
 
-def in_scope(text: str, cfg: dict[str, Any]) -> bool:
-    return any(k in text for k in cfg["major_keywords"]) or any(k in text for k in GENERAL_SCOPE)
+def headline_notice(text: str, cfg: dict[str, Any]) -> bool:
+    text = clean(text)
+    if not has_notice(text, cfg) or any(word in text for word in NEWS_RESULTS):
+        return False
+    if any(word in text for word in EVENT_TERMS) and not any(word in text for word in EVENT_ACTIONS):
+        return False
+    return True
+
+
+def scope_ok(school: str, title: str, candidate_title: str, body: str) -> bool:
+    headline = clean(f"{candidate_title} {title}")
+    lead = clean(body[:1400])
+    if any(word in headline for word in TITLE_SCOPE):
+        return True
+    if school in headline and any(word in headline for word in GENERAL_NOTICE):
+        return True
+    return any(word in lead for word in TITLE_SCOPE) and any(
+        word in headline for word in GENERAL_NOTICE + EVENT_TERMS
+    )
+
+
+def normalize_title(value: str) -> str:
+    value = clean(value)
+    if " | " in value:
+        first = value.split(" | ", 1)[0].strip()
+        if headline_fragment(first):
+            value = first
+    parts = value.split()
+    if len(parts) >= 2 and len(parts) % 2 == 0:
+        half = len(parts) // 2
+        if parts[:half] == parts[half:]:
+            value = " ".join(parts[:half])
+    for _ in range(2):
+        half = len(value) // 2
+        if len(value) > 20 and value[:half].strip() == value[half:].strip():
+            value = value[:half].strip()
+    return value[:180]
+
+
+def headline_fragment(value: str) -> bool:
+    return any(word in value for word in ("推免", "推荐免试", "夏令营", "开放日", "暑期学校", "直博", "招生宣传日"))
+
+
+def title_signature(value: str) -> str:
+    value = normalize_title(value)
+    return re.sub(r"[^0-9A-Za-z\u4e00-\u9fff]+", "", value)
 
 
 def year_in_text(text: str, year: int) -> bool:
@@ -138,17 +189,17 @@ def page_title(soup: BeautifulSoup, fallback: str = "") -> str:
     values: list[str] = []
     for selector in (".article-title", ".arti-title", ".news-title", ".content-title", ".title h1", ".title h2", "h1", "h2"):
         for node in soup.select(selector)[:8]:
-            value = clean(node.get_text(" ", strip=True))
-            if 5 <= len(value) <= 220 and value not in values:
+            value = normalize_title(node.get_text(" ", strip=True))
+            if 5 <= len(value) <= 180 and value not in values:
                 values.append(value)
-    for value in (clean(fallback), clean(soup.title.get_text(" ", strip=True))[:220] if soup.title else ""):
+    for value in (normalize_title(fallback), normalize_title(soup.title.get_text(" ", strip=True)) if soup.title else ""):
         if value and value not in values:
             values.append(value)
     if not values:
         return ""
     def score(value: str) -> tuple[int, int, int]:
         keywords = sum(k in value for k in ("预推免", "推免", "推荐免试", "夏令营", "开放日", "暑期学校", "直博", "招生宣传日"))
-        return keywords, int(bool(re.search(r"20\d{2}", value))), len(value)
+        return keywords, int(bool(re.search(r"20\d{2}", value))), -abs(len(value) - 70)
     return max(values, key=score)
 
 
@@ -242,7 +293,7 @@ def crawl_school(school: dict[str, Any], seed_map: dict[str, Any], year: int, cf
             continue
         final, title, body, _, soup = doc
         pages += 1
-        if has_notice(title, cfg) and year_in_text(f"{title} {body[:12000]}", year) and final not in candidate_urls:
+        if headline_notice(title, cfg) and year_in_text(f"{title} {body[:12000]}", year) and final not in candidate_urls:
             candidate_urls.add(final)
             candidates.append(Candidate(school["name"], school.get("priority", "normal"), domains, title, final))
         if depth >= max_depth:
@@ -254,7 +305,7 @@ def crawl_school(school: dict[str, Any], seed_map: dict[str, Any], year: int, cf
             if not link or link in seen or not allowed(link, domains) or not html_url(link):
                 continue
             candidate_text = f"{text} {link}"
-            if has_notice(candidate_text, cfg) and (year_in_text(candidate_text, year) or not re.search(r"20\d{2}", candidate_text)) and link not in candidate_urls:
+            if headline_notice(candidate_text, cfg) and (year_in_text(candidate_text, year) or not re.search(r"20\d{2}", candidate_text)) and link not in candidate_urls:
                 candidate_urls.add(link)
                 candidates.append(Candidate(school["name"], school.get("priority", "normal"), domains, text or "招生通知", link))
                 if len(candidates) >= max_results:
@@ -305,7 +356,7 @@ def parse_dates(text: str, default_year: int) -> list[date]:
             occupied.append(m.span())
         except ValueError:
             pass
-    for pattern in (MONTH_DAY, NUMERIC_MD):
+    for pattern in (MONTH_DAY,):
         for m in pattern.finditer(text):
             if any(a <= m.start() < b for a, b in occupied):
                 continue
@@ -323,7 +374,11 @@ def notice_status(times: list[str], today: date, published: str) -> str:
         default_year = today.year
     deadlines: list[date] = []
     for value in times:
-        if any(k in value for k in DEADLINE_WORDS):
+        explicit = any(k in value for k in DEADLINE_WORDS)
+        application_range = any(k in value for k in APPLICATION_WORDS) and any(
+            k in value for k in ("至", "到", "前", "之前")
+        )
+        if explicit or application_range:
             deadlines.extend(parse_dates(value, default_year))
     if not deadlines:
         return "待确认"
@@ -337,7 +392,13 @@ def build_notice(candidate: Candidate, year: int, cfg: dict[str, Any], now: date
         return None
     url, title, body, published, _ = doc
     blob = clean(f"{candidate.title} {title} {body[:24000]}")
-    if not has_notice(blob, cfg) or not in_scope(blob, cfg) or not year_in_text(blob, year) or not title_year_ok(title or candidate.title, year):
+    headline = clean(f"{candidate.title} {title}")
+    if (
+        not headline_notice(headline, cfg)
+        or not scope_ok(candidate.school, title, candidate.title, body)
+        or not year_in_text(blob, year)
+        or not title_year_ok(title or candidate.title, year)
+    ):
         return None
     if published:
         try:
@@ -348,7 +409,8 @@ def build_notice(candidate: Candidate, year: int, cfg: dict[str, Any], now: date
     times = key_times(body)
     published = published or "未知"
     fingerprint = hashlib.sha256("\n".join([title, url, published, *times]).encode()).hexdigest()
-    return Notice(candidate.school, candidate.priority, title or candidate.title, url, published, times, notice_status(times, now.date(), published), clean(body[:320]), fingerprint)
+    final_title = normalize_title(title or candidate.title)
+    return Notice(candidate.school, candidate.priority, final_title, url, published, times, notice_status(times, now.date(), published), clean(body[:320]), fingerprint)
 
 
 def notice_key(item: Notice) -> str:
@@ -430,7 +492,7 @@ def main() -> int:
         old = json.loads(STATE.read_text(encoding="utf-8")) if STATE.exists() else {"items": {}}
     except (OSError, json.JSONDecodeError):
         old = {"items": {}}
-    old_items = old.get("items", {})
+    old_items = old.get("items", {}) if old.get("schema_version") == 4 else {}
     first_run = not bool(old_items)
 
     candidates: list[Candidate] = []
@@ -468,7 +530,7 @@ def main() -> int:
                 health[item.school]["notices"] += 1
     dedup: dict[str, Notice] = {}
     for item in notices:
-        key = notice_key(item)
+        key = f"{item.school}|{title_signature(item.title)}"
         if key not in dedup or len(" ".join(item.key_times)) > len(" ".join(dedup[key].key_times)):
             dedup[key] = item
     notices = sorted(dedup.values(), key=sort_key)
@@ -483,7 +545,7 @@ def main() -> int:
             alerts.append(item)
         state_items[key] = {**asdict(item), "first_seen": previous.get("first_seen") if previous else now.isoformat(), "last_seen": now.isoformat()}
     alerts.sort(key=sort_key)
-    STATE.write_text(json.dumps({"schema_version": 3, "last_run": now.isoformat(), "admission_year": year, "items": state_items}, ensure_ascii=False, indent=2), encoding="utf-8")
+    STATE.write_text(json.dumps({"schema_version": 4, "last_run": now.isoformat(), "admission_year": year, "items": state_items}, ensure_ascii=False, indent=2), encoding="utf-8")
     REPORT.write_text(render_report(notices, alerts, health, now, year), encoding="utf-8")
     ALERTS.write_text(render_alerts(alerts, now, year), encoding="utf-8")
     output("alert_count", str(len(alerts)))
